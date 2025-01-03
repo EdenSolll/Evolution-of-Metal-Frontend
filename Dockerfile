@@ -20,11 +20,12 @@ RUN npm run build
 EXPOSE 3000
 
 # Define the command to run your app
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev"]
 
 
 FROM nginxinc/nginx-unprivileged as serve
 WORKDIR /app
 COPY --from=build /app/dist /app/
 COPY nginx.conf /etc/nginx
+EXPOSE 8080
 EXPOSE 5173
