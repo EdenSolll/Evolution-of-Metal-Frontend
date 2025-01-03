@@ -18,7 +18,6 @@ export interface PlayerProps {
   songs: Song[];
   setCurrentSong: React.Dispatch<React.SetStateAction<Song | null>>;
   setSongs: React.Dispatch<React.SetStateAction<Song[]>>;
-  initialVolume: number;
 }
 
 const Player: React.FC<PlayerProps> = ({
@@ -53,8 +52,10 @@ const Player: React.FC<PlayerProps> = ({
 
     //Event Handlers
     const dragHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        audioRef.current.currentTime = e.target.value;
-        setSongInfo({ ...songInfo, currentTime: e.target.value });
+      if (audioRef.current) {
+        audioRef.current.currentTime = Number(e.target.value);
+        setSongInfo({ ...songInfo, currentTime: Number(e.target.value)});
+      }
     };
 
      const playSongHandler = () => {

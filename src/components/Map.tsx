@@ -1,12 +1,10 @@
-import { useEffect, useState, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import L, { ImageOverlay, Map } from 'leaflet'
 import './map.css'
 import {
     Genre,
     get_Genres,
     get_Genre_Songs,
-    get_Songs,
-    Song
 } from '../data/api_requests'
 import { trackState } from './AudioPlayer'
 
