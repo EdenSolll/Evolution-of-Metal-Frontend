@@ -1,30 +1,23 @@
 import AWS from 'aws-sdk';
-import dotenv from 'dotenv'; // Make sure to install this package if you haven't already
-
-// Load environment variables
-dotenv.config();
 
 interface S3Config {
     accessKeyId: string;
-    secretAccessKey: string;
     url: string;
     bucket: string;
     region: string;
 }
 
 const config: S3Config = {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    url: process.env.AWS_S3_ENDPOINT!,
-    bucket: process.env.AWS_S3_BUCKET_NAME!,
-    region: process.env.AWS_REGION!
+    accessKeyId: '73SXHLKO4P9AI6AJYAXG',
+    url: 'https://s3.csh.rit.edu',
+    bucket: 'songarchive',
+    region: 'us-east-1'
 };
 
 const s3: AWS.S3 = new AWS.S3({
     endpoint: config.url,
     s3ForcePathStyle: true,
     accessKeyId: config.accessKeyId,
-    secretAccessKey: config.secretAccessKey,
     region: config.region
 });
 

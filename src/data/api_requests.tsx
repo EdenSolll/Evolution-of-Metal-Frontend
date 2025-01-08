@@ -14,8 +14,10 @@ export interface Genre {
     y_axis: number
 }
 
+const backend_url = 'https://evolution-of-metal-backend-metalwebsite.apps.okd4.csh.rit.edu'
+
 export function get_Songs(): Promise<Song[]> {
-    return fetch('http://localhost:3000/songs')
+    return fetch(backend_url + '/songs')
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
@@ -29,7 +31,7 @@ export function get_Songs(): Promise<Song[]> {
 }
 
 export function get_Genres(): Promise<Genre[]> {
-    return fetch('http://localhost:3000/genres')
+    return fetch(backend_url + '/genres')
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
@@ -43,7 +45,7 @@ export function get_Genres(): Promise<Genre[]> {
 }
 
 export function get_Genre_Songs(genreid: number): Promise<Song[]> {
-    return fetch(`http://localhost:3000/songs`)
+    return fetch(backend_url + `/songs`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
@@ -60,7 +62,7 @@ export function get_Genre_Songs(genreid: number): Promise<Song[]> {
 }
 
 export function get_Genre_from_id(id: number): Promise<Song[]> {
-    return fetch(`http://localhost:3000/genres?genre_id=${id}`)
+    return fetch(backend_url + `/genres?genre_id=${id}`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`)
