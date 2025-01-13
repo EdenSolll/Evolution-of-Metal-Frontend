@@ -1,6 +1,6 @@
 # Evolution of Metal Frontend
 
-This project presents a visual representation of metal music's evolution into various subgenres over time. The frontend displays a dynamic interface showcasing the splitting of metal genres throughout history.
+This project presents a visual representation of metal music's evolution into various subgenres over time. The frontend displays a dynamic interface showcasing the splitting of metal genres throughout history; the website can be accessed at https://evolution-of-metal-frontend-metalwebsite.apps.okd4.csh.rit.edu
 
 ## Overview
 
