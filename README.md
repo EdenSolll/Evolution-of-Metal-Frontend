@@ -50,6 +50,15 @@ cd Evolution-of-Metal-Frontend
 5. Start the frontend
 npm run dev
 
+5. Open http://localhost:5173 in your browser to view the frontend
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues and pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
 
