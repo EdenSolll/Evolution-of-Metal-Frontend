@@ -1,6 +1,51 @@
-# Evolution-of-Metal-Frontend
-Frontend for my Evolution of Metal website. The frontend displays to user a visual representation of metal musics splittings into various sub genres over time.
-The website can be accessed at https://evolution-of-metal-frontend-metalwebsite.apps.okd4.csh.rit.edu
+# Evolution of Metal Frontend
 
-## Research methods
-Each genre required extensive research to ensure I could accurately represent the evolution of a genre with my song selections. Obviously my musical taste and bias effected the songs I picked, however, I tried to be as objective as possible with the artist and album choices, selecting ones that are generally agreed unpon within the metal community as important albums in each genre's evolution. For research I used a combination of Rate Your Music, The Metal Archives, and discogs as databases for metal music. The top rated album on RYM were not always used due to the biases of the users on the platform, e.g. Within the Metalcore community one of the most important albums is Constilations by August Burns Red, however Rate Your Music users have this album rated white poorly. 
+This project presents a visual representation of metal music's evolution into various subgenres over time. The frontend displays a dynamic interface showcasing the splitting of metal genres throughout history.
+
+## Overview
+
+The Evolution of Metal Frontend is an interactive web application that visually represents the evolution of metal music into various subgenres. This project aims to provide users with an engaging and informative experience, allowing them to explore how different metal genres have developed over time.
+
+## Key Features
+
+- Interactive timeline displaying metal genre evolution
+- Visual representation of subgenre splits
+- Research-based selection of influential albums and artists
+- Responsive design for optimal viewing on various devices
+
+## Tech Stack
+
+- Frontend: Vite with React and TypeScript
+- Backend: Actix-web Rust API
+- Database: PostgreSQL
+
+## Research Methods
+
+Each genre required extensive research to ensure accurate representation of the genre's evolution. The following sources were used:
+
+- Rate Your Music: Used as a primary source for album ratings and a collection of one demographic of user ratings
+- The Metal Archives: Provided the most extensive database of metal music as well as a second demographic of user ratings to cross reference, while RYM provided reviews from general music lovers, The Metal Archives is explicitly made up of people within the Metal Community.
+- Discogs: Offered detailed information about albums, artists, and release dates and popularity of albums
+
+It's important to note that while these sources were valuable, personal musical taste and bias inevitably influenced some selections. Efforts were made to be as objective as possible by focusing on albums generally agreed upon within the metal community as important in each genre's evolution.
+
+## Installation and Usage
+
+To run the Evolution of Metal Frontend locally:
+
+1. Clone the repository:
+git clone https://github.com/yourusername/Evolution-of-Metal-Frontend.git
+
+2. Navigate to the project directory:
+cd Evolution-of-Metal-Frontend
+
+3. Install dependencies:
+npm install
+
+
+
+
+
+
+
+
