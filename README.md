@@ -18,6 +18,7 @@ The Evolution of Metal Frontend is an interactive web application that visually 
 - Frontend: Vite with React and TypeScript
 - Backend: Actix-web Rust API
 - Database: PostgreSQL
+- Storage: AWS S3 Bucket
 
 ## Research Methods
 
@@ -36,11 +37,20 @@ To run the Evolution of Metal Frontend locally:
 1. Clone the repository:
 git clone https://github.com/yourusername/Evolution-of-Metal-Frontend.git
 
-2. Navigate to the project directory:
+2. Navigate to the backend directory:
+cd Evolution-of-Metal-Backend
+
+3. Start the backend sever:
+cargo run
+
+4. Navigate to the frontend directory:
+cd ..
 cd Evolution-of-Metal-Frontend
 
-3. Install dependencies:
-npm install
+5. Start the frontend
+npm run dev
+
+
 
 
 
