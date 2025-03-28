@@ -2,7 +2,7 @@ import Player from './Player';
 import { useEffect, useRef, useState } from "react";
 import "../styles/app.scss";
 import { get_Songs, Song } from "../data/api_requests";
-import { getUrl } from "../data/s3";
+import { getUrl } from "../data/api_requests";
 import { create } from 'zustand';
 
 interface mapAudioState {
@@ -21,6 +21,7 @@ function AudioPlayer() {
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [volume, setVolume] = useState<number>(0.3);
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
@@ -30,21 +31,22 @@ function AudioPlayer() {
   const audioPlayerState = trackState();
 
   useEffect(() => {
-    get_Songs().then(fetchedSongs => {
-      setSongs(fetchedSongs);
-      setCurrentSong(fetchedSongs[0]);
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  get_Songs().then(fetchedSongs => {
+    setSongs(fetchedSongs);
     }).catch(error => {
       console.error('Error fetching songs:', error);
-    });
-  }, []);
+  });
 
   useEffect(() => {
     if (null != audioPlayerState.newMapSong) {
-      if (audioRef.current && isPlaying) {
-        audioRef.current.pause;
-      }
       setCurrentSong(audioPlayerState.newMapSong)
       audioPlayerState.newMapSong = null
+      audioRef.current?.play()
     }
   })
 
@@ -81,13 +83,6 @@ function AudioPlayer() {
     }));
   };
 
-  const songEndHandler = () => {
-    if (audioRef.current) {
-      let currentIndex = songs.findIndex(song => song.id === currentSong?.id);
-      setCurrentSong(songs[(currentIndex + 1) % songs.length]);
-      if (isPlaying) audioRef.current.play();
-    }
-  };
 
   return (
     <div>
@@ -96,6 +91,8 @@ function AudioPlayer() {
         songInfo={songInfo}
         setSongInfo={setSongInfo}
         audioRef={audioRef}
+        volume={volume}
+        setVolume={setVolume}
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         currentSong={currentSong}
@@ -108,7 +105,6 @@ function AudioPlayer() {
         onTimeUpdate={timeUpdateHandler}
         src={currentSong?.src || ''}
         ref={audioRef}
-        onEnded={songEndHandler}
       ></audio>
     </div>
   );

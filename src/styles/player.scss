@@ -53,11 +53,27 @@ input[type="range"]::-webkit-slider-thumb {
 	transform: translateX(0%);
 	pointer-events: none;
 }
+.volume-control {
+  position: absolute;
+  right: 20px;
+  top: 30;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: row; // Explicitly set row direction
+  align-items: center;
+}
+
 @media screen and (max-width: 768px) {
-	.time-control {
-		width: 90%;
-	}
-	.play-control {
-		width: 80%;
-	}
+  .time-control {
+    padding-right: 0;
+    flex-wrap: wrap;
+  }
+
+  .volume-control {
+    position: static;
+    transform: none;
+    width: 100%;
+    order: 2;
+    justify-content: flex-end;
+  }
 }

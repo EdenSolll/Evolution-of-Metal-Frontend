@@ -6,7 +6,7 @@ import {
     faPause,
 } from "@fortawesome/free-solid-svg-icons";
 import { Song } from "../data/api_requests";
-
+import VolumeSlider from "./VolumeSlider";
 
 export interface PlayerProps {
   currentSong: Song | null;
@@ -16,6 +16,8 @@ export interface PlayerProps {
   setSongInfo: React.Dispatch<React.SetStateAction<{ currentTime: number; duration: number; animationPercentage: number }>>;
   songInfo: { currentTime: number; duration: number; animationPercentage: number };
   songs: Song[];
+  volume: number;
+  setVolume: React.Dispatch<React.SetStateAction<number>>;
   setCurrentSong: React.Dispatch<React.SetStateAction<Song | null>>;
   setSongs: React.Dispatch<React.SetStateAction<Song[]>>;
 }
@@ -27,6 +29,8 @@ const Player: React.FC<PlayerProps> = ({
     audioRef,
     setSongInfo,
     songInfo,
+    volume,
+    setVolume,
     songs,
     setCurrentSong,
     setSongs,
@@ -47,7 +51,6 @@ const Player: React.FC<PlayerProps> = ({
             }
         });
         setSongs(newSongs);
-        console.log("Hey from useEffect form player JS");
     };
 
     //Event Handlers
@@ -116,6 +119,10 @@ const Player: React.FC<PlayerProps> = ({
                 <p>
                     {songInfo.duration ? getTime(songInfo.duration) : "00:00"}
                 </p>
+                <div>
+                  <VolumeSlider volume={volume} setVolume={setVolume} />
+                </div>
+
             </div>
             <div className="play-control">
                 <FontAwesomeIcon
@@ -147,6 +154,7 @@ const Player: React.FC<PlayerProps> = ({
                     icon={faAngleRight}
                 />
             </div>
+
         </div>
     );
 };

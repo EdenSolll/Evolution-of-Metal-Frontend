@@ -25,3 +25,12 @@ h4 {
 button {
     font-weight: 700;
 }
+.genre-label {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  font-weight: bold;
+  white-space: nowrap; /* Prevent text wrapping */
+  pointer-events: none;
+  display: inline-block; /* Use inline-block instead of default block */
+  width: auto; /* Allow width to expand with content */
+}

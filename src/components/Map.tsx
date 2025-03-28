@@ -1,12 +1,11 @@
 import { useEffect, useMemo, useRef } from 'react'
 import L, { ImageOverlay, Map } from 'leaflet'
 import './map.css'
-import {
-    Genre,
-    get_Genres,
+import { Genre, get_Genres,
     get_Genre_Songs,
 } from '../data/api_requests'
 import { trackState } from './AudioPlayer'
+import'leaflet-textpath'
 
 // Define constants
 const MAP_WIDTH = 540
@@ -72,7 +71,6 @@ export default function MapComponent(): JSX.Element {
 
             songline.on('click', function () {
                 audioPlayerState.newMapSong = song;
-                alert(`Song ${song.title} clicked!`)
             })
          })
          }).catch((error) => {
@@ -135,21 +133,36 @@ function drawGenreLine(genre: Genre, map: Map) {
         MAX_YEAR,
         MAP_WIDTH
     )
+
+    const genreMidPoint = calculateCoordinate(
+        genre.start_year + (MAX_YEAR - genre.start_year) / 2,
+        MIN_YEAR,
+        MAX_YEAR,
+        MAP_WIDTH
+    )
     const baseLineCoordinates: L.LatLngTuple[] = [
         [genre.y_axis, genreCoordinateStart],
         [genre.y_axis, genreCoordinateEnd],
     ]
-    const baseLine = L.polyline(baseLineCoordinates, {
+
+    const baseLineMidPoint: L.LatLngExpression = [
+      genre.y_axis, genreMidPoint
+    ]
+    L.polyline(baseLineCoordinates, {
         color: 'blue',
         weight: 5,
         opacity: 0.5,
     }).addTo(map)
 
-    const tooltip = L.tooltip({
-        permanent: true,
-        direction: 'top',
-    }).setContent(genre.genre)
-    baseLine.bindTooltip(tooltip)
+    L.marker(baseLineMidPoint, {
+      icon: L.divIcon({
+        className: 'genre-label',
+        html: `<div>${genre.genre}</div>`,
+        iconSize: [0, 0],
+        iconAnchor: [0, 20]
+      })
+    }).addTo(map)
+
 }
 
 function setupMap(): Map {
@@ -160,7 +173,7 @@ function setupMap(): Map {
         zoomSnap: 0.1,
         zoomDelta: 0.1,
         attributionControl: false,
-    }).setView([200, -75], 0)
+    }).setView([200, 225], 0)
 }
 
 function addImageOverlay(map: Map): ImageOverlay {
