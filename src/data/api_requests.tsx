@@ -12,6 +12,7 @@ export interface Genre {
     genre: string
     start_year: number
     y_axis: number
+    color: string
 }
 
 const backend_url = 'https://evolution-of-metal-backend-metalwebsite.apps.okd4.csh.rit.edu'

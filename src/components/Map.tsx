@@ -65,7 +65,7 @@ export default function MapComponent(): JSX.Element {
             ]
 
             const songline = L.polyline(polylineCoordinates, {
-                color: 'blue',
+                color: genre.color,
                 weight: 6,
             }).addTo(map)
 
@@ -149,7 +149,7 @@ function drawGenreLine(genre: Genre, map: Map) {
       genre.y_axis, genreMidPoint
     ]
     L.polyline(baseLineCoordinates, {
-        color: 'blue',
+        color: genre.color,
         weight: 5,
         opacity: 0.5,
     }).addTo(map)
