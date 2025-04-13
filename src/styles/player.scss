@@ -55,8 +55,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 .volume-control {
   position: absolute;
-  right: 20px;
-  top: 30;
+  right: -100px;
+  top: 10px;
   transform: translateY(-50%);
   display: flex;
   flex-direction: row; // Explicitly set row direction

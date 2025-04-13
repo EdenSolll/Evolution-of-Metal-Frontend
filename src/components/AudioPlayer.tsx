@@ -36,11 +36,13 @@ function AudioPlayer() {
     }
   }, [volume]);
 
-  get_Songs().then(fetchedSongs => {
-    setSongs(fetchedSongs);
-    }).catch(error => {
-      console.error('Error fetching songs:', error);
-  });
+  if (songs == null) {
+    get_Songs().then(fetchedSongs => {
+      setSongs(fetchedSongs);
+      }).catch(error => {
+        console.error('Error fetching songs:', error);
+    });
+  }
 
   useEffect(() => {
     if (null != audioPlayerState.newMapSong) {

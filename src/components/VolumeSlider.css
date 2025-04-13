@@ -1,0 +1,38 @@
+/* VolumeSlider.css */
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative; /* Ensures absolute positioning works */
+}
+
+.volume-button {
+  font-size: 16px;
+  color: #eee;
+  position: absolute;
+  left: -30px; /* Adjust based on your layout */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(115, 67, 167, 0.8);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volume-button:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.volume-button.muted {
+  opacity: 0.4;
+  background: rgba(255, 0, 0, 0.6);
+}

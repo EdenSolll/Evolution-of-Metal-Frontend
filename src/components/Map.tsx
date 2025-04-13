@@ -188,8 +188,9 @@ function addImageOverlay(map: Map): ImageOverlay {
 }
 
 function addYearMarkers(map: Map) {
-    const yearLayers: Record<number, L.Marker> = {}
+    const yearLayers: Record<number, { marker: L.Marker, line: L.Polyline }> = {};
     for (let year = MIN_YEAR; year <= MAX_YEAR; year++) {
+        // Create year marker
         const yearMarker = L.marker([0, (year - MIN_YEAR) * 10], {
             icon: L.divIcon({
                 className: 'leaflet-marker-icon',
@@ -197,28 +198,58 @@ function addYearMarkers(map: Map) {
                 iconSize: [200, 40],
                 iconAnchor: [15, 0],
             }),
-        }).addTo(map)
+        }).addTo(map);
 
-        yearLayers[year] = yearMarker
+        // Create year line
+        let yearLineCoordinates: L.LatLngTuple[];
+        if (year % 10 == 0) {
+          yearLineCoordinates = [
+              [0, (year - MIN_YEAR) * 10],
+              [10, (year - MIN_YEAR) * 10],
+          ];
+        } else {
+          yearLineCoordinates = [
+              [0, (year - MIN_YEAR) * 10],
+              [5, (year - MIN_YEAR) * 10],
+          ];
+        }
+        const yearLine = L.polyline(yearLineCoordinates, {
+            color: "red",
+            weight: 6,
+            lineCap: 'square'
+        }).addTo(map);
+
+        // Store both marker and line
+        yearLayers[year] = { marker: yearMarker, line: yearLine };
     }
-
-    return yearLayers
+    return yearLayers;
 }
 
-function handleZoomEvents(map: Map, yearLayers: Record<number, L.Marker>) {
-    map.on('zoomend', () => {
-        const zoom = map.getZoom()
+function handleZoomEvents(map: Map, yearLayers: Record<number, { marker: L.Marker, line: L.Polyline }>) {
+    const updateVisibility = () => {
+        const zoom = map.getZoom();
+        for (const yearStr in yearLayers) {
+            const year = parseInt(yearStr);
+            const { marker, line } = yearLayers[year];
 
-        for (let yearStr in yearLayers) {
-            const year = parseInt(yearStr)
             if (zoom >= 2) {
-                yearLayers[year].addTo(map)
-                yearLayers[year].openTooltip()
+                // Show both marker and line for all years
+                if (!map.hasLayer(marker)) marker.addTo(map);
+                if (!map.hasLayer(line)) line.addTo(map);
             } else {
                 if (year % 10 !== 0) {
-                    yearLayers[year].removeFrom(map)
+                    // Remove non-decade years
+                    if (map.hasLayer(marker)) map.removeLayer(marker);
+                    if (map.hasLayer(line)) map.removeLayer(line);
+                } else {
+                    // Ensure decade years are visible
+                    if (!map.hasLayer(marker)) marker.addTo(map);
+                    if (!map.hasLayer(line)) line.addTo(map);
                 }
             }
         }
-    })
+    };
+
+    map.on('zoomend', updateVisibility);
+    updateVisibility();
 }
