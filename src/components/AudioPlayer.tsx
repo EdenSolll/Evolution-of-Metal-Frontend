@@ -7,13 +7,12 @@ import { create } from 'zustand';
 
 interface mapAudioState {
   newMapSong: Song | null
+  setNewMapSong: (song: Song | null) => void;
 }
 
 export const trackState = create<mapAudioState>((set) => ({
   newMapSong: null,
-  fetchNewSong: async (song: Song) => {
-    set({ newMapSong: song })
-    },
+  setNewMapSong: (song: Song | null) => set({ newMapSong: song }),
 }))
 
 function AudioPlayer() {
@@ -36,7 +35,7 @@ function AudioPlayer() {
     }
   }, [volume]);
 
-  if (songs == null) {
+  if (songs.length === 0) {
     get_Songs().then(fetchedSongs => {
       setSongs(fetchedSongs);
       }).catch(error => {
@@ -45,36 +44,34 @@ function AudioPlayer() {
   }
 
   useEffect(() => {
-      if (audioPlayerState.newMapSong) {
-          setCurrentSong(audioPlayerState.newMapSong);
-          setIsPlaying(true);
-          audioPlayerState.newMapSong = null;
-      }
+    if (audioPlayerState.newMapSong) {
+      setCurrentSong(audioPlayerState.newMapSong)
+      setIsPlaying(true);
+      audioPlayerState.setNewMapSong(null);
+    }
   }, [audioPlayerState.newMapSong]);
 
   useEffect(() => {
-      if (audioRef.current && currentSong) {
-          (async () => {
-              const filename = currentSong.src.split('/').pop();
-              if (filename) {
-                  const songUrl = await getUrl(filename);
-                  if (songUrl && audioRef.current) {
-                      audioRef.current.src = songUrl;
-                      audioRef.current.load();
-
-                      const playWhenLoaded = () => {
-                          if (isPlaying) {
-                              audioRef.current?.play().catch(console.error);
-                          }
-                          audioRef.current?.removeEventListener('canplaythrough', playWhenLoaded);
-                      };
-
-                      audioRef.current.addEventListener('canplaythrough', playWhenLoaded);
-                  }
-              }
-          })();
-      }
-  }, [currentSong]);
+    if (audioRef.current) {
+        (async () => {
+            const filename = audioRef.current?.src.split('/').pop();
+            if (filename) {
+                const songUrl = await getUrl(filename);
+                if (songUrl && audioRef.current) {
+                    const previousTime = audioRef.current.currentTime;
+                    audioRef.current.src = songUrl;
+                    console.log(songUrl);
+                    audioRef.current.load();
+                    if (previousTime > 0) {
+                      audioRef.current.currentTime = previousTime;
+                    }
+                    if (isPlaying) {
+                        audioRef.current.play().catch(console.error); }
+                }
+            }
+        })();
+    }
+  }, [currentSong, isPlaying]);
 
   const timeUpdateHandler = (e: React.MouseEvent<HTMLAudioElement>) => {
     const target = e.currentTarget;

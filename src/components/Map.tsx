@@ -71,7 +71,7 @@ export default function MapComponent(): JSX.Element {
             }).addTo(map)
 
             songline.on('click', function () {
-                audioPlayerState.newMapSong = song;
+              audioPlayerState.setNewMapSong(song);
             })
          })
          }).catch((error) => {
