@@ -23,7 +23,7 @@ return (
       onClick={toggleMute}
       className={`volume-button ${volume > 0 ? '' : 'muted'}`}
     >
-      {volume > 0 ? '🔊' : '🔇'}
+      {volume > 0 ? '' : ''}
     </button>
       <input
         type="range"

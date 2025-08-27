@@ -61,15 +61,17 @@ const Player: React.FC<PlayerProps> = ({
       }
     };
 
-     const playSongHandler = () => {
-        if (isPlaying && audioRef.current) {
-            audioRef.current.pause();
-            setIsPlaying(!isPlaying);
-        } else if (audioRef.current) {
-            audioRef.current.play();
-            setIsPlaying(!isPlaying);
-        }
-    };
+  const playSongHandler = () => {
+      if (isPlaying) {
+          audioRef.current?.pause();
+      } else {
+          audioRef.current?.play().catch(error => {
+            console.error("Playback failed:", error);
+            setIsPlaying(false);
+          });
+      }
+      setIsPlaying(!isPlaying);
+  };
 
     const getTime = (time: number) =>
         Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2);

@@ -67,6 +67,7 @@ export default function MapComponent(): JSX.Element {
             const songline = L.polyline(polylineCoordinates, {
                 color: genre.color,
                 weight: 6,
+                lineCap: "square"
             }).addTo(map)
 
             songline.on('click', function () {
@@ -152,6 +153,7 @@ function drawGenreLine(genre: Genre, map: Map) {
         color: genre.color,
         weight: 5,
         opacity: 0.5,
+        lineCap: "square"
     }).addTo(map)
 
     L.marker(baseLineMidPoint, {
@@ -216,11 +218,25 @@ function addYearMarkers(map: Map) {
         const yearLine = L.polyline(yearLineCoordinates, {
             color: "red",
             weight: 6,
-            lineCap: 'square'
+            lineCap: "square"
         }).addTo(map);
 
+        let baseLineCoords: L.LatLngTuple[];
+
+        baseLineCoords = [
+            [0, 0],
+            [0, ((MAX_YEAR - MIN_YEAR) * 10)]
+        ];
+
+        L.polyline(baseLineCoords, {
+            color: "red",
+            weight: 6,
+            lineCap: "square"
+        }).addTo(map);
+
+
         // Store both marker and line
-        yearLayers[year] = { marker: yearMarker, line: yearLine };
+        yearLayers[year] = { marker: yearMarker, line: yearLine};
     }
     return yearLayers;
 }

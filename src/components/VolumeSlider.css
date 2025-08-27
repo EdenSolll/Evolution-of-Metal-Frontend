@@ -1,16 +1,15 @@
-/* VolumeSlider.css */
 .volume-control {
   display: flex;
   align-items: center;
   gap: 10px;
-  position: relative; /* Ensures absolute positioning works */
+  position: relative;
 }
 
 .volume-button {
   font-size: 16px;
   color: #eee;
   position: absolute;
-  left: -30px; /* Adjust based on your layout */
+  left: -30px;
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
@@ -27,12 +26,22 @@
   justify-content: center;
 }
 
-.volume-button:hover {
-  opacity: 1;
-  transform: translateY(-50%) scale(1.1);
+.volume-button::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  content: "\f028"; /* volume-high icon */
 }
 
 .volume-button.muted {
   opacity: 0.4;
   background: rgba(255, 0, 0, 0.6);
+}
+
+.volume-button.muted::before {
+  content: "\f026"; /* volume-off icon */
+}
+
+.volume-button:hover {
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
 }

@@ -45,30 +45,36 @@ function AudioPlayer() {
   }
 
   useEffect(() => {
-    if (null != audioPlayerState.newMapSong) {
-      setCurrentSong(audioPlayerState.newMapSong)
-      audioPlayerState.newMapSong = null
-      audioRef.current?.play()
-    }
-  })
+      if (audioPlayerState.newMapSong) {
+          setCurrentSong(audioPlayerState.newMapSong);
+          setIsPlaying(true);
+          audioPlayerState.newMapSong = null;
+      }
+  }, [audioPlayerState.newMapSong]);
 
   useEffect(() => {
-    if (audioRef.current) {
-        (async () => {
-            const filename = audioRef.current?.src.split('/').pop();
-            if (filename) {
-                const songUrl = await getUrl(filename);
-                if (songUrl && audioRef.current) {
-                    audioRef.current.src = songUrl;
-                    console.log(songUrl);
-                    audioRef.current.load();
-                    if (isPlaying) {
-                        audioRef.current.play().catch(console.error); }
-                }
-            }
-        })();
-    }
-  }, [currentSong, isPlaying]);
+      if (audioRef.current && currentSong) {
+          (async () => {
+              const filename = currentSong.src.split('/').pop();
+              if (filename) {
+                  const songUrl = await getUrl(filename);
+                  if (songUrl && audioRef.current) {
+                      audioRef.current.src = songUrl;
+                      audioRef.current.load();
+
+                      const playWhenLoaded = () => {
+                          if (isPlaying) {
+                              audioRef.current?.play().catch(console.error);
+                          }
+                          audioRef.current?.removeEventListener('canplaythrough', playWhenLoaded);
+                      };
+
+                      audioRef.current.addEventListener('canplaythrough', playWhenLoaded);
+                  }
+              }
+          })();
+      }
+  }, [currentSong]);
 
   const timeUpdateHandler = (e: React.MouseEvent<HTMLAudioElement>) => {
     const target = e.currentTarget;
